@@ -1,6 +1,6 @@
 import type { Client, CommandInteraction, InteractionDeferReplyOptions, InteractionDeferUpdateOptions, MessageComponentInteraction } from "discord.js";
 import { ApplicationCommandOptionType, ApplicationCommandType, ChannelType } from "discord-api-types/v9";
-import type { InteractionResponseData } from "./DiscordInteraction";
+import type { InteractionResponse, InteractionResponseEditOptions, InteractionResponseOptions } from "./DiscordInteraction";
 
 export type DiscordCommandData = SlashCommandData | ContextMenuCommandData;
 
@@ -69,7 +69,6 @@ export abstract class DiscordCommand {
 		this.name = name;
 	}
 
-	abstract execute(client: Client, interaction: CommandInteraction, responder: DiscordCommandResponder): any;
 	abstract execute(client: Client, interaction: CommandInteraction, responder: DiscordCommandResponder): Promise<any>;
 }
 
@@ -106,7 +105,7 @@ export class DiscordCommandResponder {
 		this.interaction = interaction;
 	}
 
-	async reply(data: InteractionResponseData | string) {
+	async reply(data: InteractionResponseOptions | string) {
 		return DiscordCommandResponder.sendInteractionCallback(this.interaction, data);
 	}
 
@@ -116,11 +115,11 @@ export class DiscordCommandResponder {
 		else return this.interaction.deferReply(options);
 	}
 
-	async edit(data: InteractionResponseData | string) {
+	async edit(data: string | InteractionResponseEditOptions) {
 		return DiscordCommandResponder.sendInteractionCallback(this.interaction, data);
 	}
 
-	static async sendInteractionCallback(interaction: CommandInteraction | MessageComponentInteraction, data: InteractionResponseData | string) {
+	static async sendInteractionCallback(interaction: CommandInteraction | MessageComponentInteraction, data: InteractionResponse) {
 		if (interaction.replied || interaction.deferred) return interaction.editReply(data);
 		else return interaction.reply(data);
 	}
