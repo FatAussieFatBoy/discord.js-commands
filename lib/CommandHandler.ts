@@ -5,7 +5,7 @@ import { DiscordCommand, DiscordCommandResponder } from "./discord/DiscordComman
 import type { DiscordComponent } from "./discord/DiscordComponent";
 import { Config, Configuration } from "./utils/Configuration";
 
-const { Events, WSEvents } = Constants;
+const { Events } = Constants;
 
 export class CommandHandler extends Collection<string, DiscordCommand> {
 	public readonly client: Client;
@@ -20,23 +20,31 @@ export class CommandHandler extends Collection<string, DiscordCommand> {
 		this.config = config ?? Configuration.DefaultConfig();
 		this.components = new ComponentHandler(this);
 
-		this.client.ws.on(WSEvents.INTERACTION_CREATE as never, async (interaction: Interaction) => {
-			if (interaction.isCommand() || interaction.isMessageComponent()) {
-				const responder = new DiscordCommandResponder(this.client, interaction);
-				try {
-					if (interaction.isCommand()) {
-						const command_name = interaction.commandName.toLowerCase();
-						if (!(this.has(command_name))) return responder.reply(`The command \` ${command_name} \` could not be recognised.`);
-						else await (this.get(command_name) as DiscordCommand).execute(this.client, interaction, responder);
-					} else {
-						if (!(this.components.has(interaction.customId))) return responder.reply(`The component \` ${interaction.customId} \`could not be recognised.`);
-						else await (this.components.get(interaction.customId) as DiscordComponent).execute(this.client, interaction, responder);
+		this.client.on(Events.INTERACTION_CREATE, (interaction: Interaction) => {
+			return new Promise((resolve, reject) => {
+				if (interaction.isCommand() || interaction.isMessageComponent()) {
+					const responder = new DiscordCommandResponder(this.client, interaction);
+					try {
+						if (interaction.isCommand()) {
+							const command_name = interaction.commandName.toLowerCase();
+							if (!(this.has(command_name))) {
+								responder.reply(`The command \` ${command_name} \` could not be recognised.`);
+								resolve();
+							}
+							else resolve((this.get(command_name) as DiscordCommand).execute(this.client, interaction, responder));
+						} else {
+							if (!(this.components.has(interaction.customId))) {
+								responder.reply(`The component \` ${interaction.customId} \`could not be recognised.`);
+								resolve();
+							}
+							else resolve((this.components.get(interaction.customId) as DiscordComponent).execute(this.client, interaction, responder));
+						}
+					} catch (e) {
+						responder.reply(`The bot encountered an \` ${(e as Error).name} \` error when attempting to resolve the interaction.`);
+						reject(e);
 					}
-				} catch (e) {
-					console.error(e);
-					return responder.reply(`The bot encountered an \` ${(e as Error).name} \` error when attempting to resolve the interaction.`);
 				}
-			}
+			});
 		});
 	}
 

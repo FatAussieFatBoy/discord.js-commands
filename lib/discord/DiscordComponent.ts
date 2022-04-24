@@ -1,5 +1,5 @@
 import type { Client, MessageComponentInteraction } from "discord.js";
-import { ButtonStyle, ComponentType } from "discord-api-types";
+import { ButtonStyle, ComponentType } from "discord-api-types/v9";
 import type { DiscordCommandResponder } from "./DiscordCommand";
 
 export type DiscordComponentData = ActionRowComponentData | ButtonComponentData | LinkButtonComponentData | SelectMenuComponentData;
