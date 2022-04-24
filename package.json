@@ -1,10 +1,10 @@
 {
   "name": "@fataussiefatboy/discord.js-commands",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Command handler for discord.js",
   "main": "dist/index.js",
   "files": [
-    "dist"
+    "dist/**/*"
   ],
   "scripts": {
     "clean": "rimraf dist",
