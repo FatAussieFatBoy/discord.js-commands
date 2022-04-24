@@ -31,5 +31,19 @@
   },
   "dependencies": {
     "discord.js": "^13.6.0"
-  }
+  },
+  "contributors": [
+    {
+      "name": "Contributers",
+      "url": "https://github.com/FatAussieFatBoy/discord.js-commands/graphs/contributors"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FatAussieFatBoy/discord.js-commands.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FatAussieFatBoy/discord.js-commands/issues"
+  },
+  "homepage": "https://github.com/FatAussieFatBoy/discord.js-commands#readme"
 }
