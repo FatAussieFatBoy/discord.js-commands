@@ -16,7 +16,7 @@
         "module": "CommonJS",
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "rootDir": "./lib",
+        "rootDir": "src",
 
         // emit
         "declaration": true,
@@ -40,5 +40,5 @@
         "target": "ES2021",
         "useDefineForClassFields": true
     },
-    "include": [ "./lib/**/*.ts" ]
+    "include": [ "src/**/*.ts" ]
 }

@@ -69,6 +69,7 @@ export abstract class DiscordCommand {
 		this.name = name;
 	}
 
+	abstract execute(client: Client, interaction: CommandInteraction, responder: DiscordCommandResponder): any;
 	abstract execute(client: Client, interaction: CommandInteraction, responder: DiscordCommandResponder): Promise<any>;
 }
 
