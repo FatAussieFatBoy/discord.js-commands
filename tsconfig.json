@@ -1,25 +1,44 @@
 {
-    "extends": "@sapphire/ts-config",
-
     "compilerOptions": {
-        "lib": [
-            "ES6",
-            "ESNext"
-        ],
-        "target": "ES2019",
+        // type checking
+        "allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"exactOptionalPropertyTypes": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strict": true,
+		"useUnknownInCatchVariables": true,
+
+        // modules
         "module": "CommonJS",
-        "declaration": true,
-        "sourceMap": true,
-        "outDir": "dist",
-        "rootDir": "lib",
-        "strict": true,
         "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "rootDir": "./lib",
+
+        // emit
+        "declaration": true,
+        "importHelpers": true,
+        "importsNotUsedAsValues": "error",
+        "inlineSources": true,
+        "newLine": "lf",
+        "noEmitHelpers": true,
+        "outDir": "./dist",
+        "sourceRoot": "./",
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "sourceMap": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "typeRoots": [
-            "./node_modules/@types",
-            "./@types"
-        ]
+
+        // language and environment
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": ["ESNext"],
+        "target": "ES2021",
+        "useDefineForClassFields": true
     },
-    "exclude": [ "node_modules" ]
+    "include": [ "./lib/**/*.ts" ]
 }

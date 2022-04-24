@@ -11,12 +11,12 @@ export interface ActionRowComponentData {
 
 interface BaseButtonComponentData {
 	type: ComponentType.Button;
-	label?: string;
+	label?: string | undefined;
 	emoji?: {
 		id: string;
-		animated?: boolean;
+		animated?: boolean | undefined;
 	} | undefined;
-	disabled?: boolean;
+	disabled?: boolean | undefined;
 }
 
 export interface ButtonComponentData extends BaseButtonComponentData {
@@ -35,17 +35,17 @@ export interface SelectMenuComponentData {
 	options: {
 		label: string;
 		value: string;
-		description?: string;
+		description?: string | undefined;
 		emoji?: {
 			id: string;
-			animated?: boolean;
+			animated?: boolean | undefined;
 		} | undefined;
-		default?: boolean;
+		default?: boolean | undefined;
 	}[];
-	placeholder?: string;
-	min_values?: number;
-	max_values?: number;
-	disabled?: boolean;
+	placeholder?: string | undefined;
+	min_values?: number | undefined;
+	max_values?: number | undefined;
+	disabled?: boolean | undefined;
 }
 
 export function renderComponents(components: DiscordComponentData[]): DiscordComponentData[] {
@@ -81,19 +81,19 @@ export abstract class DiscordComponent {
 		this.custom_id = custom_id;
 	}
 
-	abstract execute(client: Client, interaction: MessageComponentInteraction, responder: DiscordCommandResponder): any;
+	abstract execute(client: Client, interaction: MessageComponentInteraction, responder: DiscordCommandResponder): Promise<any>;
 }
 
 export abstract class ButtonDiscordComponent extends DiscordComponent implements ButtonComponentData {
 	public readonly type: ComponentType.Button;
 
 	public style: ButtonStyle.Primary | ButtonStyle.Secondary | ButtonStyle.Success | ButtonStyle.Danger;
-	public label?: string;
+	public label?: string | undefined;
 	public emoji?: { 
 		id: string; 
-		animated?: boolean;
+		animated?: boolean | undefined;
 	} | undefined;
-	public disabled?: boolean;
+	public disabled?: boolean | undefined;
 	
 	constructor(data: ButtonComponentData) {
 		super(data.custom_id);
@@ -111,17 +111,17 @@ export abstract class SelectMenuComponent extends DiscordComponent implements Se
 	public options: { 
 		label: string; 
 		value: string; 
-		description?: string; 
+		description?: string | undefined; 
 		emoji?: { 
 			id: string; 
-			animated?: boolean
+			animated?: boolean | undefined;
 		} | undefined; 
-		default?: boolean; 
+		default?: boolean | undefined;
 	}[];
-	public placeholder?: string;
-	public min_values?: number;
-	public max_values?: number;
-	public disabled?: boolean;
+	public placeholder?: string | undefined;
+	public min_values?: number | undefined;
+	public max_values?: number | undefined;
+	public disabled?: boolean | undefined;
 	
 	constructor(data: SelectMenuComponentData) {
 		super(data.custom_id);
