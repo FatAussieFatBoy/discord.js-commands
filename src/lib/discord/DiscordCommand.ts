@@ -3,25 +3,25 @@ import { ApplicationCommandOptionType, ApplicationCommandType, ChannelType } fro
 import type { InteractionResponse, InteractionResponseEditOptions, InteractionResponseOptions } from "./DiscordInteraction";
 
 export type DiscordCommandData = SlashCommandData | ContextMenuCommandData;
-export type SlashCommandOptionData = SubCommandOptionData | SubCommandGroupOptionData;
+export type SlashCommandOptionData = SubCommandGroupOptionData | BasicOptionData;
 
 interface BaseOptionData {
 	name: string;
+	type: ApplicationCommandOptionType;
 	description: string;
 	required?: boolean | undefined;
 }
 
 export interface SubCommandOptionData extends BaseOptionData {
 	type: ApplicationCommandOptionType.Subcommand;
-	options?: BasicOptionData[] | undefined;
 }
 
 export interface SubCommandGroupOptionData extends BaseOptionData {
 	type: ApplicationCommandOptionType.SubcommandGroup;
-	options?: SubCommandOptionData[] | undefined;
+	options?: BasicOptionData[] | undefined;
 }
 
-type BasicOptionData = StringOptionData | NumberOptionData | ChannelTypeOptionData | BaseOptionData;
+type BasicOptionData = SubCommandOptionData | StringOptionData | NumberOptionData | ChannelTypeOptionData | BaseOptionData;
 
 interface ChoicesOptionData extends BaseOptionData {
 	type: ApplicationCommandOptionType.String | ApplicationCommandOptionType.Integer | ApplicationCommandOptionType.Number;
@@ -52,7 +52,7 @@ export interface SlashCommandData {
 	type?: ApplicationCommandType.ChatInput;
 	name: string;
 	description: string;
-	options?: [ SubCommandOptionData | SubCommandGroupOptionData ] | undefined;
+	options?: SlashCommandOptionData[] | undefined;
 	default_permission?: boolean | undefined;
 }
 
@@ -74,7 +74,7 @@ export abstract class DiscordCommand {
 export abstract class SlashCommand extends DiscordCommand implements SlashCommandData {
 	public readonly type: ApplicationCommandType.ChatInput;
 	public description: string;
-	public options?: [SubCommandOptionData | SubCommandGroupOptionData] | undefined;
+	public options?: SlashCommandOptionData[] | undefined;
 	public default_permission?: boolean | undefined;
 
 	constructor(data: SlashCommandData) {
