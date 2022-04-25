@@ -3,7 +3,6 @@ import { ApplicationCommandOptionType, ApplicationCommandType, ChannelType } fro
 import type { InteractionResponse, InteractionResponseEditOptions, InteractionResponseOptions } from "./DiscordInteraction";
 
 export type DiscordCommandData = SlashCommandData | ContextMenuCommandData;
-
 export type SlashCommandOptionData = SubCommandOptionData | SubCommandGroupOptionData;
 
 interface BaseOptionData {
@@ -50,7 +49,7 @@ export interface ChannelTypeOptionData extends BaseOptionData {
 }
 
 export interface SlashCommandData {
-	type: ApplicationCommandType.ChatInput;
+	type?: ApplicationCommandType.ChatInput;
 	name: string;
 	description: string;
 	options?: [ SubCommandOptionData | SubCommandGroupOptionData ] | undefined;
@@ -65,8 +64,8 @@ export interface ContextMenuCommandData {
 export abstract class DiscordCommand {
 	public readonly name: string;
 
-	constructor(name: string) {
-		this.name = name;
+	constructor(data: DiscordCommandData) {
+		this.name = data.name;
 	}
 
 	abstract execute(client: Client, interaction: CommandInteraction, responder: DiscordCommandResponder): Promise<any>;
@@ -79,9 +78,9 @@ export abstract class SlashCommand extends DiscordCommand implements SlashComman
 	public default_permission?: boolean | undefined;
 
 	constructor(data: SlashCommandData) {
-		super(data.name);
+		super(data);
 
-		this.type = ApplicationCommandType.ChatInput;
+		this.type = data.type || ApplicationCommandType.ChatInput;
 		this.description = data.description;
 		this.options = data.options;
 		this.default_permission = data.default_permission;
@@ -91,7 +90,7 @@ export abstract class SlashCommand extends DiscordCommand implements SlashComman
 export abstract class ContextMenuCommand extends DiscordCommand implements ContextMenuCommandData {
 	public type: ApplicationCommandType.Message | ApplicationCommandType.User;
 	constructor(data: ContextMenuCommandData) {
-		super(data.name);
+		super(data);
 		this.type = data.type;
 	}
 }
