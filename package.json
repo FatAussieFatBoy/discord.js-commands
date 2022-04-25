@@ -1,6 +1,6 @@
 {
   "name": "@fataussiefatboy/discord.js-commands",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Command handler for discord.js",
   "author": "fataussiefatboy",
   "license": "MIT",
