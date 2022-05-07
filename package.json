@@ -1,7 +1,7 @@
 {
   "name": "@fataussiefatboy/discord.js-commands",
-  "version": "0.1.6",
-  "description": "Command handler for discord.js",
+  "version": "0.2.0",
+  "description": "Command Handler for discord.js",
   "author": "fataussiefatboy",
   "license": "MIT",
   "scripts": {
@@ -47,7 +47,6 @@
   },
   "homepage": "https://github.com/FatAussieFatBoy/discord.js-commands#readme",
   "dependencies": {
-    "discord-api-types": "^0.31.2",
     "discord.js": "^13.6.0"
   },
   "devDependencies": {
